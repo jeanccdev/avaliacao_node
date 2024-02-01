@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import 'dotenv/config.js'
 import sequelize from './db.js'
 import { Cerveja } from './models/Cerveja.js'
@@ -6,6 +7,7 @@ import cervejaRouter from './routes/cervejaRouter.js'
 
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 app.use('/cervejas', cervejaRouter)
 
