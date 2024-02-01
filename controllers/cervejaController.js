@@ -33,11 +33,14 @@ export const putCerveja = async (req, res) => {
     try {
         const { cervejaId } = req.params
         const data = req.body
-        const cerveja = await Cerveja.findByPk(cervejaId)
-        cerveja.set(data)
-        const updatedCerveja = await cerveja.save()
-        res.status(200).send({ success: true, data: updatedCerveja })
+        await Cerveja.update(data, {
+            where: {
+                id: cervejaId
+            }
+        })
+        res.status(200).send({ success: true })
     } catch (error) {
+        console.log(error)
         res.status(500).send({ success: false })
     }
 }
