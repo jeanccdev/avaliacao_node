@@ -48,12 +48,12 @@ export const putCerveja = async (req, res) => {
 export const deleteCerveja = async (req, res) => {
     try {
         const { cervejaId } = req.params
-        const cerveja = await Cerveja.destroy({
+        await Cerveja.destroy({
             where: {
                 id: cervejaId
             }
         })
-        res.status(200).send({ success: true, data: cerveja })
+        res.status(200).send({ success: true })
     } catch (error) {
         res.status(500).send({ success: false })
     }
