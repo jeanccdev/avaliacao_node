@@ -4,17 +4,26 @@ import 'dotenv/config.js'
 import sequelize from './db.js'
 import { Cerveja } from './models/Cerveja.js'
 import cervejaRouter from './routes/cervejaRouter.js'
+import authRouter from './routes/authRouter.js'
+import { User } from './models/User.js'
+import { verifyToken } from './controllers/authController.js'
 
 const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.use('/cervejas', cervejaRouter)
+app.use('/auth', authRouter)
+app.use('/cervejas', verifyToken, cervejaRouter)
 
 sequelize.sync({
     force: true
 })
     .then(async () => {
+        await User.create({
+            username: 'admin',
+            password: 'admin',
+            permissions: ''
+        })
         await Cerveja.create({
             nome: 'Heineken',
             abv: 4.5,
